@@ -1,0 +1,173 @@
+english-learning-app/
+├─ [README.md](http://readme.md/)
+├─ docs/
+│  ├─ api/                    # OpenAPI exported + examples
+│  ├─ db/                     # ERD, schema notes, seed notes
+│  ├─ decisions/              # ADR: quyết định kỹ thuật
+│  └─ postman/                # Postman collection (tuỳ)
+├─ infra/
+│  ├─ docker-compose.yml      # postgres + backend (+ optional pgadmin)
+│  └─ postgres/
+│     └─ init/                # init scripts nếu cần
+├─ backend/
+│  ├─ pom.xml (hoặc build.gradle)
+│  ├─ src/main/java/com/yourorg/englishapp/
+│  │  ├─ EnglishAppApplication.java
+│  │  ├─ config/
+│  │  │  ├─ SecurityConfig.java
+│  │  │  ├─ OpenApiConfig.java
+│  │  │  ├─ JacksonConfig.java
+│  │  │  └─ CorsConfig.java
+│  │  ├─ common/
+│  │  │  ├─ api/
+│  │  │  │  ├─ ApiResponse.java
+│  │  │  │  └─ ApiError.java
+│  │  │  ├─ exception/
+│  │  │  │  ├─ GlobalExceptionHandler.java
+│  │  │  │  └─ NotFoundException.java
+
+│  │  │  │  └─ BadRequestException.java
+│  │  │  ├─ auditable/
+│  │  │  │  ├─ AuditableEntity.java
+│  │  │  │  └─ JpaAuditingConfig.java
+│  │  │  └─ util/
+│  │     ├─ TimeUtil.java
+│  │     └─ JsonUtil.java
+│  │  ├─ auth/
+│  │  │  ├─ controller/
+│  │  │  │  ├─ AuthController.java
+│  │  │  │  └─ MeController.java
+│  │  │  ├─ dto/
+│  │  │  │  ├─ LoginRequest.java
+│  │  │  │  ├─ LoginResponse.java
+│  │  │  │  ├─ RegisterRequest.java
+│  │  │  │  └─ UserMeResponse.java
+│  │  │  ├─ service/
+│  │  │  │  ├─ AuthService.java
+│  │  │  │  ├─ JwtService.java
+│  │  │  │  └─ PasswordService.java
+│  │  │  ├─ security/
+│  │  │  │  ├─ JwtAuthFilter.java
+│  │  │  │  ├─ JwtTokenProvider.java
+│  │  │  │  └─ UserPrincipal.java
+│  │  │  └─ repository/
+│  │  │     └─ UserRepository.java
+│  │  ├─ content/
+│  │  │  ├─ controller/
+│  │  │  │  ├─ CourseController.java
+│  │  │  │  ├─ LessonController.java
+│  │  │  │  └─ ExerciseController.java
+│  │  │  ├─ dto/
+│  │  │  │  ├─ CourseDto.java
+│  │  │  │  ├─ LessonDto.java
+│  │  │  │  ├─ LessonDetailDto.java
+│  │  │  │  ├─ ExerciseItemDto.java
+│  │  │  │  ├─ SubmitLessonRequest.java
+│  │  │  │  └─ SubmitLessonResponse.java
+│  │  │  ├─ service/
+│  │  │  │  ├─ CourseService.java
+│  │  │  │  ├─ LessonService.java
+│  │  │  │  └─ ExerciseService.java
+│  │  │  ├─ repository/
+│  │  │  │  ├─ CourseRepository.java
+│  │  │  │  ├─ LessonRepository.java
+│  │  │  │  └─ ExerciseItemRepository.java
+│  │  │  └─ domain/
+│  │  │     ├─ Course.java
+│  │  │     ├─ Lesson.java
+│  │  │     └─ ExerciseItem.java
+│  │  ├─ progress/
+│  │  │  ├─ controller/
+│  │  │  │  └─ ProgressController.java
+│  │  │  ├─ dto/
+│  │  │  │  ├─ ProgressOverviewDto.java
+│  │  │  │  ├─ CourseProgressDto.java
+│  │  │  │  └─ LessonProgressDto.java
+│  │  │  ├─ service/
+│  │  │  │  ├─ ProgressService.java
+│  │  │  │  └─ StreakService.java
+│  │  │  ├─ repository/
+│  │  │  │  ├─ LessonProgressRepository.java
+│  │  │  │  └─ ExerciseAttemptRepository.java
+│  │  │  └─ domain/
+│  │  │     ├─ LessonProgress.java
+│  │  │     └─ ExerciseAttempt.java
+│  │  ├─ vocab/
+│  │  │  ├─ controller/
+│  │  │  │  └─ VocabController.java
+│  │  │  ├─ dto/
+│  │  │  │  ├─ SaveVocabRequest.java
+│  │  │  │  └─ VocabEntryDto.java
+│  │  │  ├─ service/
+│  │  │  │  ├─ VocabService.java
+│  │  │  │  └─ ReviewService.java
+│  │  │  ├─ repository/
+│  │  │  │  ├─ VocabSavedRepository.java
+│  │  │  │  └─ VocabMistakesRepository.java
+│  │  │  └─ domain/
+│  │  │     ├─ VocabSaved.java
+│  │  │     └─ VocabMistakes.java
+│  │  ├─ analytics/
+│  │  │  ├─ controller/
+│  │  │  │  └─ EventLogController.java
+│  │  │  ├─ dto/
+│  │  │  │  └─ LogEventRequest.java
+│  │  │  ├─ service/
+│  │  │  │  └─ EventLogService.java
+│  │  │  ├─ repository/
+│  │  │  │  └─ EventLogRepository.java
+│  │  │  └─ domain/
+│  │  │     └─ EventLog.java
+│  │  ├─ admin/
+│  │  │  ├─ controller/
+│  │  │  │  ├─ AdminCourseController.java
+│  │  │  │  ├─ AdminLessonController.java
+│  │  │  │  └─ AdminExerciseController.java
+│  │  │  ├─ dto/
+│  │  │  │  ├─ UpsertCourseRequest.java
+│  │  │  │  ├─ UpsertLessonRequest.java
+│  │  │  │  └─ UpsertExerciseRequest.java
+│  │  │  └─ service/
+│  │  │     └─ AdminContentService.java
+│  │  └─ dictionary/ (tuỳ chọn)
+│  │     ├─ controller/DictionaryController.java
+│  │     ├─ service/DictionaryService.java
+│  │     └─ client/TranslateClient.java
+│  ├─ src/main/resources/
+│  │  ├─ application.yml
+│  │  └─ db/migration/
+│  │     ├─ V1__init.sql
+│  │     └─ V2__seed_demo.sql
+│  └─ src/test/java/...        # unit/integration tests
+└─ mobile/
+├─ pubspec.yaml
+├─ lib/
+│  ├─ main.dart
+│  ├─ app.dart
+│  ├─ config/
+│  │  ├─ env.dart           # baseUrl, flags
+│  │  └─ theme.dart
+│  ├─ core/
+│  │  ├─ network/
+│  │  │  ├─ api_client.dart  # Dio
+│  │  │  ├─ interceptors.dart (JWT)
+│  │  │  └─ endpoints.dart
+│  │  ├─ storage/
+│  │  │  └─ token_storage.dart
+│  │  ├─ errors/
+│  │  └─ utils/
+│  ├─ features/
+│  │  ├─ auth/
+│  │  │  ├─ data/ (api + models)
+│  │  │  ├─ domain/
+│  │  │  └─ presentation/ (screens, widgets)
+│  │  ├─ courses/
+│  │  ├─ lessons/
+│  │  ├─ quiz/
+│  │  ├─ progress/
+│  │  ├─ vocab/
+│  │  ├─ notifications/
+│  │  └─ analytics/
+│  └─ router/
+│     └─ app_router.dart
+└─ test/

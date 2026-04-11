@@ -1,0 +1,27 @@
+# Large data files — too big for GitHub (use external storage)
+dictionary_simple.csv
+kaikki.org-dictionary-English.jsonl
+*.jsonl
+*.csv
+
+# Maven
+backend/backend/target/
+*.class
+*.jar
+*.war
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Flutter
+.dart_tool/
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+pubspec.lock
+
+# OS
+.DS_Store
+Thumbs.db

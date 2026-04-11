@@ -1,0 +1,64 @@
+1. Tổng quan hệ thống (System Overview)
+Hệ thống là một ứng dụng di động hỗ trợ học tiếng Anh tập trung vào từ vựng, lộ trình học theo bài học (Lesson) và tích hợp các cơ chế nhắc nhở, ôn tập thông minh để tăng trải nghiệm người dùng.
+
+2. Quy tắc Nghiệp vụ Chi tiết (Business Rules)
+2.1. Quản lý Người dùng & Cá nhân hóa (Auth + Profile)
+Đăng nhập/Đăng ký: Hỗ trợ xác thực cơ bản (Email/Password).
+
+Hồ sơ người dùng: Lưu trữ thông tin cơ bản, ảnh đại diện và cấp độ hiện tại.
+
+Hệ thống Progress (Tiến độ):
+
+XP (Experience Points): Cộng điểm khi hoàn thành bài học hoặc trả lời đúng bài tập.
+
+Streak: Đếm số ngày học liên tiếp. Streak sẽ reset về 0 nếu người dùng không có hoạt động học tập nào trong vòng 24 giờ của ngày tiếp theo.
+
+Leveling: Theo dõi tiến độ hoàn thành bài học để đánh giá mức độ thành thạo của người dùng.
+
+2.2. Cấu trúc Nội dung (Course & Lesson)
+Phân cấp dữ liệu: Course (Khóa học) -> Lesson (Bài học) -> Exercise (Bài tập).
+
+Phân loại trình độ: Dữ liệu được gán nhãn theo khung tham chiếu CEFR (A1, A2, B1, B2, C1, C2). Lưu ý: Giai đoạn này tập trung vào từ vựng, chưa áp dụng ngữ pháp chuyên sâu.
+
+Truy cập: Người dùng có thể xem danh sách khóa học và danh sách bài học thuộc khóa học đó.
+
+2.3. Hệ thống Bài tập & Tương tác (Exercise/Quiz)
+Dạng bài tập: Hỗ trợ Trắc nghiệm (Multiple choice) và Điền vào chỗ trống (Fill-in-the-blank).
+
+Logic mở khóa: Khi người dùng đạt đến một ngưỡng thành thạo nhất định (Level hoàn chỉnh), hệ thống tự động kích hoạt dạng bài tập "Điền từ vựng mới xuất hiện" để tăng độ khó.
+
+Phản hồi (Feedback): Sau khi Submit, hệ thống trả về kết quả Đúng/Sai kèm giải thích (nếu có trong CMS).
+
+Cơ chế Học lại (Retry Logic): Trong một khóa học, sau khi hoàn thành toàn bộ bài học, hệ thống phải cung cấp tính năng "Luyện tập lại các câu sai" để củng cố kiến thức.
+
+2.4. Công cụ Hỗ trợ & Ôn tập (Vocabulary Tools)
+Từ điển tích hợp: Cho phép dịch Anh - Việt và Việt - Anh. Người dùng có thể tìm kiếm và "Lưu" (Bookmark) từ vựng vào kho cá nhân.
+
+Thuật toán ôn tập: Hệ thống tự động lọc các từ vựng người dùng thường xuyên làm sai trong các bài tập để đưa vào danh sách "Cần ôn tập".
+
+Giao diện ưu tiên: Khi truy cập màn hình chính, hệ thống phải đẩy các chủ đề (Topics) có tỉ lệ làm sai cao lên đầu trang để nhắc nhở người dùng.
+
+2.5. Thông báo & Phân tích (Notification & Analytics)
+Push Notification: Nhắc nhở người dùng vào học dựa trên giờ cố định hoặc khi sắp đứt Streak.
+
+Event Logging: Ghi lại lịch sử hành vi (Start lesson, Finish lesson, Correct/Incorrect answer).
+
+Kỹ thuật: Lưu trữ dạng Log DB hoặc File log để phục vụ thống kê sơ bộ, chưa cần tích hợp Big Data.
+
+2.6. Quản trị Nội dung (CMS - Admin)
+Quyền hạn: Admin có toàn quyền Create/Read/Update/Delete (CRUD) đối với Khóa học, Bài học và kho câu hỏi.
+
+Kiểm soát dữ liệu: Admin chịu trách nhiệm phân loại từ vựng theo trình độ (A1-C2).
+
+3. Lộ trình Mở rộng (Future Roadmap - AI Integration)
+Sau khi vận hành ổn định các tính năng cốt lõi, hệ thống sẽ tích hợp mô hình AI với các nghiệp vụ sau:
+
+Xử lý tài liệu: Người dùng tải lên URL website hoặc file PDF.
+
+Trích xuất thông minh: AI tự động nhận diện ngôn ngữ, dịch thuật và quan trọng nhất là "Lọc từ vựng quan trọng" dựa trên trình độ hiện tại của người dùng để tạo thành bộ thẻ học (Flashcards) cá nhân hóa.
+
+4. Mô hình Luồng dữ liệu (Data Flow)
+Một số lưu ý nhỏ cho bạn khi phát triển:
+Về phần "Level hoàn chỉnh": Bạn nên định nghĩa rõ Level này dựa trên % hoàn thành khóa học (ví dụ: xong 80% khóa A1 thì coi là hoàn thành Level A1).
+
+Phần Log: Vì bạn dùng Spring Boot, hãy tận dụng AOP (Aspect Oriented Programming) để log các sự kiện như finish lesson mà không làm bẩn code nghiệp vụ chính.
