@@ -1,29 +1,29 @@
 package com.englishapp.backend.content.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@Builder
 @Table(name = "courses")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Course {
+
     @Id
-    @Column(nullable = false)
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @Column(nullable = false)
     private String name;
-    @Column(nullable = true)
+
+    @Column(columnDefinition = "TEXT")
     private String description;
-    @Column(nullable = false)
-    private String level;
 
-
-
+    @Column(name = "level_target", nullable = false, length = 10)
+    private String levelTarget;
 }

@@ -85,3 +85,10 @@ Located in the project root alongside the backend. Uses Dio HTTP client with JWT
 ## Typo in Codebase
 
 The analytics module directory is named `anylytics/` (typo) — maintain this spelling when referencing it to avoid breaking imports.
+
+This file should be updated as development progresses and more features are implemented. It serves as a living document to guide Claude Code in understanding the current state and structure of the codebase.
+
+## Workflow
+When working to a new feature, follow this workflow:
+1. Always plan what you need to do, and mark off completed plans in a separate plan file within this project.
+2. 
