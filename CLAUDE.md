@@ -71,7 +71,7 @@ POST /api/admin/courses|lessons|exercises (CRUD)
 - `check_csv.py` — validates CSV structure and column counts
 - `json_to_ndjson.py` — format conversion
 
-### Flutter Frontend
+### React Frontend
 
 Located in the project root alongside the backend. Uses Dio HTTP client with JWT interceptors. Feature-based structure mirroring the backend modules (auth, courses, lessons, quiz, progress, vocab, notifications, analytics). Not yet implemented.
 
