@@ -157,7 +157,7 @@ export default function LessonDetailPage() {
   const heroGradient = LEVEL_HERO[levelHint];
 
   const handleStart = () => {
-    navigate(`/lessons/${id}/exercise/1`);
+    navigate(`/lessons/${id}/quiz`);
   };
 
   const handleBack = () => {

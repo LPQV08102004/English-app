@@ -105,3 +105,53 @@ export interface LessonProgress {
   status: 'IN_PROGRESS' | 'COMPLETED' | 'FAILED';
   score: number;
 }
+
+export interface SubmitAnswerResponse {
+  correct: boolean;
+  xpEarned: number;
+  wrongAttempts: number;
+  lessonFailed: boolean;
+  lessonCompleted: boolean;
+  bonusXp: number;
+}
+
+export interface VocabEntry {
+  id: number;
+  word: string;
+  meaning: string;
+  ipa: string | null;
+  partOfSpeech: string | null;
+  topic: string | null;
+  level: string | null;
+  audioUrl: string | null;
+  example: string | null;
+  grammarInfo: Record<string, unknown> | null;
+}
+
+export interface VocabSaved {
+  id: number;
+  word: string;
+  meaning: string;
+  note: string | null;
+  source: string | null;
+  createdAt: string;
+}
+
+export interface MistakeReview {
+  vocabularyId: number;
+  word: string;
+  meaning: string;
+  ipa: string | null;
+  topic: string | null;
+  level: string | null;
+  mistakeCount: number;
+  lastReviewedAt: string | null;
+}
+
+export interface PageResponse<T> {
+  content: T[];
+  totalElements: number;
+  totalPages: number;
+  number: number;
+  size: number;
+}

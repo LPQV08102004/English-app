@@ -1,4 +1,4 @@
-import { User, LogOut, ChevronDown } from 'lucide-react';
+import { User, LogOut, ChevronDown, Settings } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -55,6 +55,24 @@ export default function Header() {
 
           {menuOpen && (
             <div className="profile-menu">
+              <button
+                type="button"
+                onClick={() => { setMenuOpen(false); navigate('/profile'); }}
+                className="profile-menu-item"
+              >
+                <Settings size={15} />
+                Profile
+              </button>
+              {user.role === 'ROLE_ADMIN' && (
+                <button
+                  type="button"
+                  onClick={() => { setMenuOpen(false); navigate('/admin'); }}
+                  className="profile-menu-item"
+                >
+                  <User size={15} />
+                  Admin
+                </button>
+              )}
               <button
                 type="button"
                 onClick={handleLogout}

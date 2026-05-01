@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Check, Lock, LockOpen, HelpCircle, ArrowLeft } from 'lucide-react';
 import Header from '../components/Header';
-import { getCourseDetail } from '../services/api';
+import { getCourseDetail, getCourseProgress } from '../services/api';
 import type { CourseDetail, LessonWithProgress } from '../types';
 
 // Hero gradient per CEFR level (matches CoursesPage thumbnails)
@@ -34,33 +34,33 @@ const MOCK_COURSE: CourseDetail = {
   ],
 };
 
-// Mock progress per lesson (0-100). In a real app this comes from the progress API.
-const MOCK_PROGRESS: Record<number, number> = { 1: 100, 2: 85, 3: 45 };
-
-// Derive locked/unlocked status based on previous lesson progress (threshold 80%)
 function buildLessonsWithProgress(
   course: CourseDetail,
-  progressMap: Record<number, number>,
+  progressMap: Record<number, { status: string; score: number }>,
 ): LessonWithProgress[] {
   return course.lessons
     .slice()
     .sort((a, b) => a.orderIndex - b.orderIndex)
     .map((lesson, i, arr) => {
-      const progress = progressMap[lesson.id] ?? 0;
+      const entry = progressMap[lesson.id];
+      const backendStatus = entry?.status ?? 'NOT_STARTED';
 
       let status: LessonWithProgress['status'];
-      if (progress === 100) {
+      let progress = 0;
+
+      if (backendStatus === 'COMPLETED') {
         status = 'COMPLETED';
+        progress = 100;
+      } else if (backendStatus === 'IN_PROGRESS') {
+        status = 'IN_PROGRESS';
+        progress = 50;
       } else if (i === 0) {
-        // First lesson always unlocked
-        status = progress > 0 ? 'IN_PROGRESS' : 'NOT_STARTED';
+        status = 'NOT_STARTED';
+        progress = 0;
       } else {
-        const prevProgress = progressMap[arr[i - 1].id] ?? 0;
-        if (prevProgress >= 80) {
-          status = progress > 0 ? 'IN_PROGRESS' : 'NOT_STARTED';
-        } else {
-          status = 'LOCKED';
-        }
+        const prevStatus = progressMap[arr[i - 1].id]?.status ?? 'NOT_STARTED';
+        status = prevStatus === 'COMPLETED' ? 'NOT_STARTED' : 'LOCKED';
+        progress = 0;
       }
 
       return { ...lesson, progress, status };
@@ -77,14 +77,16 @@ export default function LessonListPage() {
 
   useEffect(() => {
     const courseId = Number(id);
-    getCourseDetail(courseId)
-      .then((data) => {
-        setCourse(data);
-        setLessons(buildLessonsWithProgress(data, MOCK_PROGRESS));
+    Promise.all([getCourseDetail(courseId), getCourseProgress(courseId)])
+      .then(([courseData, progressData]) => {
+        setCourse(courseData);
+        const progressMap: Record<number, { status: string; score: number }> = {};
+        for (const p of progressData) progressMap[p.lessonId] = p;
+        setLessons(buildLessonsWithProgress(courseData, progressMap));
       })
       .catch(() => {
         setCourse(MOCK_COURSE);
-        setLessons(buildLessonsWithProgress(MOCK_COURSE, MOCK_PROGRESS));
+        setLessons(buildLessonsWithProgress(MOCK_COURSE, {}));
       })
       .finally(() => setLoading(false));
   }, [id]);

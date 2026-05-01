@@ -5,7 +5,18 @@ import LoginPage from './pages/LoginPage';
 import CoursesPage from './pages/CoursesPage';
 import LessonListPage from './pages/LessonListPage';
 import LessonDetailPage from './pages/LessonDetailPage';
-import heroMark from './assets/hero.png';
+import QuizPage from './pages/QuizPage';
+import ProfilePage from './pages/ProfilePage';
+import VocabDictionaryPage from './pages/VocabDictionaryPage';
+import SavedWordsPage from './pages/SavedWordsPage';
+import MistakeReviewPage from './pages/MistakeReviewPage';
+import AdminDashboardPage from './pages/admin/AdminDashboardPage';
+import AdminCoursesPage from './pages/admin/AdminCoursesPage';
+import AdminLessonsPage from './pages/admin/AdminLessonsPage';
+import AdminExercisesPage from './pages/admin/AdminExercisesPage';
+import AdminVocabPage from './pages/admin/AdminVocabPage';
+import AdminUsersPage from './pages/admin/AdminUsersPage';
+import AdminEventsPage from './pages/admin/AdminEventsPage';
 
 export default function App() {
   return (
@@ -17,9 +28,18 @@ export default function App() {
           <Route path="/lessons" element={<CoursesPage />} />
           <Route path="/courses/:id" element={<LessonListPage />} />
           <Route path="/lessons/:id" element={<LessonDetailPage />} />
-          <Route path="/quiz" element={<PlaceholderPage title="Quiz" />} />
-          <Route path="/exercises" element={<PlaceholderPage title="Exercise" />} />
-          <Route path="/vocab/mistakes" element={<PlaceholderPage title="Vocabulary Mistakes" />} />
+          <Route path="/lessons/:id/quiz" element={<QuizPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/vocab/dictionary" element={<VocabDictionaryPage />} />
+          <Route path="/vocab/saved" element={<SavedWordsPage />} />
+          <Route path="/vocab/mistakes" element={<MistakeReviewPage />} />
+          <Route path="/admin" element={<AdminDashboardPage />} />
+          <Route path="/admin/courses" element={<AdminCoursesPage />} />
+          <Route path="/admin/courses/:courseId/lessons" element={<AdminLessonsPage />} />
+          <Route path="/admin/lessons/:lessonId/exercises" element={<AdminExercisesPage />} />
+          <Route path="/admin/vocab" element={<AdminVocabPage />} />
+          <Route path="/admin/users" element={<AdminUsersPage />} />
+          <Route path="/admin/events" element={<AdminEventsPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>
@@ -27,17 +47,3 @@ export default function App() {
   );
 }
 
-function PlaceholderPage({ title }: { title: string }) {
-  return (
-    <div className="placeholder-page">
-      <div className="placeholder-card reveal">
-        <img src={heroMark} alt="English Learning" className="placeholder-logo" />
-        <h1>{title}</h1>
-        <p>This section is under construction. It will be available soon.</p>
-        <a href="/" className="placeholder-link">
-          Back to home
-        </a>
-      </div>
-    </div>
-  );
-}

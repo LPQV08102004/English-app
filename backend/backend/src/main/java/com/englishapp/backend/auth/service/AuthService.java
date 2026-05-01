@@ -101,7 +101,8 @@ public class AuthService implements UserDetailsService {
 
     private AuthResponse toAuthResponse(String token, User user) {
         return new AuthResponse(token, user.getId(), user.getEmail(),
-                user.getDisplayName(), user.getAvatarUrl(), user.getXp(), user.getStreakDays());
+                user.getDisplayName(), user.getAvatarUrl(), user.getXp(), user.getStreakDays(),
+                user.getRole().name());
     }
 
 

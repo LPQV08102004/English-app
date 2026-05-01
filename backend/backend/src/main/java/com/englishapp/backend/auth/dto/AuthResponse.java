@@ -4,10 +4,11 @@ import java.util.UUID;
 
 public record AuthResponse(
         String token,
-        UUID userId,
+        UUID id,
         String email,
         String displayName,
         String avatarUrl,
         int xp,
-        int streakDays
+        int streakDays,
+        String role
 ) {}
